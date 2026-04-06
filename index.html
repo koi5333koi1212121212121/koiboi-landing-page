@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>KOIBOI × O00010O</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple: #a855f7;
+      --pink:   #ec4899;
+      --cyan:   #06b6d4;
+      --blue:   #3b82f6;
+      --bg:     #040408;
+      --glass:  rgba(255,255,255,0.04);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ───── CANVAS ───── */
+    #bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ───── WRAPPER ───── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100dvh;
+    }
+
+    /* ───── HERO ───── */
+    .hero {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px 80px;
+      text-align: center;
+      perspective: 800px;
+    }
+
+    .hero-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      transform-style: preserve-3d;
+      animation: logo-float 8s ease-in-out infinite;
+    }
+
+    @keyframes logo-float {
+      0%,100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      25%      { transform: translateY(-8px) rotateX(2deg) rotateY(-2deg); }
+      75%      { transform: translateY(4px) rotateX(-1deg) rotateY(2deg); }
+    }
+
+    .logo-koiboi {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(38px, 11vw, 72px);
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(168,85,247,0.7));
+      line-height: 1;
+    }
+
+    .logo-sep {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(18px, 5vw, 36px);
+      color: rgba(255,255,255,0.2);
+      line-height: 1;
+    }
+
+    .logo-o00010o {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(26px, 8vw, 54px);
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(6,182,212,0.7));
+      line-height: 1;
+    }
+
+    .hero-sub {
+      font-size: clamp(10px, 2.5vw, 13px);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 52px;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.35;
+      animation: scroll-bounce 2.4s ease-in-out infinite;
+    }
+
+    .hero-scroll span {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 28px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+    }
+
+    @keyframes scroll-bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* ───── CARDS ───── */
+    .cards {
+      padding: 0 20px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border-radius: 24px;
+      padding: 28px 22px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: transform 0.3s cubic-bezier(.175,.885,.32,1.275);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .card:active { transform: scale(0.97) rotateX(3deg); }
+
+    .card-music {
+      background: linear-gradient(145deg, rgba(168,85,247,0.12), rgba(236,72,153,0.06));
+      border: 1px solid rgba(168,85,247,0.28);
+      box-shadow: 0 0 60px rgba(168,85,247,0.07), inset 0 1px 0 rgba(168,85,247,0.15);
+    }
+
+    .card-visuals {
+      background: linear-gradient(145deg, rgba(6,182,212,0.12), rgba(59,130,246,0.06));
+      border: 1px solid rgba(6,182,212,0.28);
+      box-shadow: 0 0 60px rgba(6,182,212,0.07), inset 0 1px 0 rgba(6,182,212,0.15);
+    }
+
+    .card-eyebrow {
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .eyebrow-music   { color: var(--purple); }
+    .eyebrow-visuals { color: var(--cyan); }
+
+    .card-title {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(34px, 10vw, 52px);
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .title-music {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .title-visuals {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .tag-music {
+      background: rgba(168,85,247,0.12);
+      color: #c084fc;
+      border: 1px solid rgba(168,85,247,0.22);
+    }
+
+    .tag-visuals {
+      background: rgba(6,182,212,0.12);
+      color: #67e8f9;
+      border: 1px solid rgba(6,182,212,0.22);
+    }
+
+    .card-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.48);
+      margin-bottom: 22px;
+    }
+
+    /* Social grid */
+    .socials {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .socials.three-col {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    a.soc {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 13px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    a.soc i { font-size: 13px; flex-shrink: 0; }
+
+    a.soc-music {
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.2);
+    }
+
+    a.soc-music:hover, a.soc-music:active {
+      background: rgba(168,85,247,0.25);
+      border-color: rgba(168,85,247,0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(168,85,247,0.25);
+    }
+
+    a.soc-visuals {
+      background: rgba(6,182,212,0.1);
+      border: 1px solid rgba(6,182,212,0.2);
+    }
+
+    a.soc-visuals:hover, a.soc-visuals:active {
+      background: rgba(6,182,212,0.25);
+      border-color: rgba(6,182,212,0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(6,182,212,0.25);
+    }
+
+    /* Divider line */
+    .divider {
+      width: 40px;
+      height: 2px;
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    .divider-music   { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+    .divider-visuals { background: linear-gradient(90deg, var(--cyan), var(--blue)); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 32px 24px 48px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="page">
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-logo">
+      <span class="logo-koiboi">KOIBOI</span>
+      <span class="logo-sep">/</span>
+      <span class="logo-o00010o">O00010O</span>
+    </div>
+    <p class="hero-sub">Psytrance · Visuals · Frequencies</p>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- ─── CARDS ─── -->
+  <div class="cards">
+
+    <!-- KOIBOI — MUSIC -->
+    <div class="card card-music">
+      <div class="card-eyebrow eyebrow-music">— Music —</div>
+      <div class="card-title title-music">KOIBOI</div>
+      <div class="tags">
+        <span class="tag tag-music">Psytrance</span>
+        <span class="tag tag-music">DJ</span>
+        <span class="tag tag-music">Producer</span>
+        <span class="tag tag-music">140–145 BPM</span>
+      </div>
+      <p class="card-desc">
+        Psychedelic Trance from Israel. Hypnotic · Shamanic · Festival energy.<br>
+        IONO Music · Alteza Records · United Beats Records
+      </p>
+      <div class="divider divider-music"></div>
+      <div class="socials">
+        <a href="https://soundcloud.com/koi-boi" target="_blank" rel="noopener" class="soc soc-music">
+          <i class="fa-brands fa-soundcloud"></i> SoundCloud
+        </a>
+        <a href="https://open.spotify.com/search/koi%20boi" target="_blank" rel="noopener" class="soc soc-music">
+          <i class="fa-brands fa-spotify"></i> Spotify
+        </a>
+        <a href="https://www.beatport.com/artist/koi-boi/1" target="_blank" rel="noopener" class="soc soc-music">
+          <i class="fa-solid fa-compact-disc"></i> Beatport
+        </a>
+        <a href="https://www.youtube.com/@koiboi" target="_blank" rel="noopener" class="soc soc-music">
+          <i class="fa-brands fa-youtube"></i> YouTube
+        </a>
+        <a href="https://www.instagram.com/koi_boi" target="_blank" rel="noopener" class="soc soc-music">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+        <a href="https://www.tiktok.com/@koiboimusix" target="_blank" rel="noopener" class="soc soc-music">
+          <i class="fa-brands fa-tiktok"></i> TikTok
+        </a>
+      </div>
+    </div>
+
+    <!-- O00010O — VISUALS -->
+    <div class="card card-visuals">
+      <div class="card-eyebrow eyebrow-visuals">— Visuals —</div>
+      <div class="card-title title-visuals">O00010O</div>
+      <div class="tags">
+        <span class="tag tag-visuals">VJ</span>
+        <span class="tag tag-visuals">TouchDesigner</span>
+        <span class="tag tag-visuals">GLSL</span>
+        <span class="tag tag-visuals">Generative</span>
+        <span class="tag tag-visuals">AI Art</span>
+      </div>
+      <p class="card-desc">
+        Real-time generative visuals & live AV.<br>
+        TouchDesigner · ComfyUI · Unreal Engine 5<br>
+        Fractals · Shamanic · Psychedelic
+      </p>
+      <div class="divider divider-visuals"></div>
+      <div class="socials">
+        <a href="https://www.instagram.com/koiboi_edit_" target="_blank" rel="noopener" class="soc soc-visuals">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+        <a href="https://www.tiktok.com/@koiboimusix" target="_blank" rel="noopener" class="soc soc-visuals">
+          <i class="fa-brands fa-tiktok"></i> TikTok
+        </a>
+        <a href="https://www.youtube.com/@koiboi" target="_blank" rel="noopener" class="soc soc-visuals">
+          <i class="fa-brands fa-youtube"></i> YouTube
+        </a>
+        <a href="https://www.facebook.com/koiboi" target="_blank" rel="noopener" class="soc soc-visuals">
+          <i class="fa-brands fa-facebook"></i> Facebook
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>© 2026 KOIBOI × O00010O</footer>
+</div>
+
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+(function () {
+  const canvas = document.getElementById('bg');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.z = 35;
+
+  // ── Particle count — fewer on mobile for perf
+  const isMobile = window.innerWidth < 600;
+  const COUNT = isMobile ? 1200 : 2500;
+
+  const pos    = new Float32Array(COUNT * 3);
+  const colors = new Float32Array(COUNT * 3);
+  const speeds = new Float32Array(COUNT);
+
+  for (let i = 0; i < COUNT; i++) {
+    pos[i*3]   = (Math.random() - 0.5) * 90;
+    pos[i*3+1] = (Math.random() - 0.5) * 90;
+    pos[i*3+2] = (Math.random() - 0.5) * 50;
+
+    speeds[i] = 0.3 + Math.random() * 0.7;
+
+    // purple → cyan gradient
+    const t = Math.random();
+    colors[i*3]   = t*0.66 + (1-t)*0.02;  // R
+    colors[i*3+1] = t*0.33 + (1-t)*0.71;  // G
+    colors[i*3+2] = t*0.97 + (1-t)*0.83;  // B
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,    3));
+  geo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.PointsMaterial({
+    size: isMobile ? 0.18 : 0.14,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.65,
+    sizeAttenuation: true,
+  });
+
+  const pts = new THREE.Points(geo, mat);
+  scene.add(pts);
+
+  // ── Orbit lines (subtle 3D rings)
+  const addRing = (radius, color, tiltX, tiltZ) => {
+    const curve = new THREE.EllipseCurve(0,0, radius, radius*0.4, 0, Math.PI*2, false, 0);
+    const points = curve.getPoints(120);
+    const rGeo = new THREE.BufferGeometry().setFromPoints(points);
+    const rMat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.08 });
+    const ring = new THREE.Line(rGeo, rMat);
+    ring.rotation.x = tiltX;
+    ring.rotation.z = tiltZ;
+    scene.add(ring);
+    return ring;
+  };
+
+  const ring1 = addRing(22, 0xa855f7, Math.PI/3,  0.3);
+  const ring2 = addRing(28, 0x06b6d4, Math.PI/2.5, -0.5);
+  const ring3 = addRing(18, 0xec4899, Math.PI/4,  0.8);
+
+  // ── Animation
+  let t = 0;
+  let targetX = 0, targetY = 0;
+  let curX = 0, curY = 0;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.0008;
+
+    // Lazy mouse follow
+    curX += (targetX - curX) * 0.02;
+    curY += (targetY - curY) * 0.02;
+
+    pts.rotation.y = t * 0.3 + curX * 0.4;
+    pts.rotation.x = Math.sin(t * 0.7) * 0.08 + curY * 0.3;
+
+    ring1.rotation.y = t * 0.5;
+    ring2.rotation.y = -t * 0.35;
+    ring3.rotation.y = t * 0.6;
+
+    // Wave the particles
+    const p = geo.attributes.position.array;
+    for (let i = 0; i < COUNT; i++) {
+      const ix = p[i*3], iz = p[i*3+2];
+      p[i*3+1] += Math.sin(t*2.5 + ix*0.08 + iz*0.08) * 0.0012 * speeds[i];
+    }
+    geo.attributes.position.needsUpdate = true;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // ── Resize
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // ── Mouse parallax
+  document.addEventListener('mousemove', e => {
+    targetX = (e.clientX / window.innerWidth  - 0.5) * 2;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  // ── Touch parallax
+  document.addEventListener('touchmove', e => {
+    if (!e.touches[0]) return;
+    targetX = (e.touches[0].clientX / window.innerWidth  - 0.5) * 2;
+    targetY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>
