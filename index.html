@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KOIBOI | 3D Universe</title>
+    <title>KOIBOI / O00010O | 3D Universe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,6 +17,7 @@
             background-color: #000;
             font-family: 'Inter', sans-serif;
             color: #fff;
+            scroll-behavior: smooth;
         }
         #canvas-container {
             position: fixed;
@@ -49,11 +50,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        /* Mobile Specific Tweaks */
+        .neon-border-purple {
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .neon-border-cyan {
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
         @media (max-width: 640px) {
             .hero-title {
-                font-size: 4rem;
-                line-height: 1;
+                font-size: 3.5rem;
+                line-height: 1.1;
             }
         }
     </style>
@@ -66,92 +72,150 @@
         
         <!-- Navigation -->
         <nav class="p-6 flex justify-between items-center interactive">
-            <div class="text-xl font-black neon-text tracking-tighter">KOIBOI</div>
-            <div class="flex gap-4">
-                <a href="https://www.instagram.com/koiboi_edit_" target="_blank" class="w-10 h-10 glass flex items-center justify-center hover:bg-white/10 transition"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="w-10 h-10 glass flex items-center justify-center hover:bg-white/10 transition"><i class="fa-solid fa-headphones"></i></a>
+            <div class="text-lg font-black neon-text tracking-tighter">KOIBOI / O00010O</div>
+            <div class="flex gap-3">
+                <a href="https://www.instagram.com/koi_boi" target="_blank" class="w-9 h-9 glass flex items-center justify-center hover:bg-white/10 transition" title="Instagram Main"><i class="fa-brands fa-instagram text-purple-400"></i></a>
+                <a href="https://www.instagram.com/koiboi_edit_" target="_blank" class="w-9 h-9 glass flex items-center justify-center hover:bg-white/10 transition" title="Instagram Visuals"><i class="fa-solid fa-eye text-cyan-400"></i></a>
+                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="w-9 h-9 glass flex items-center justify-center hover:bg-white/10 transition"><i class="fa-solid fa-headphones"></i></a>
             </div>
         </nav>
 
         <!-- Hero Section -->
-        <section class="flex flex-col justify-center items-center text-center px-6 pt-20 pb-40">
-            <h1 class="hero-title text-6xl md:text-9xl font-black neon-text uppercase tracking-tighter mb-4">
-                YAKIR<br><span class="gradient-text">KOIBOI</span>
-            </h1>
-            <p class="text-gray-400 tracking-[0.4em] uppercase text-xs mb-12">Psytrance Architect & Visual Sorcerer</p>
+        <section class="flex flex-col justify-center items-center text-center px-6 pt-16 pb-32">
+            <div class="hero-title font-black neon-text uppercase tracking-tighter mb-4 text-6xl md:text-9xl">
+                KOIBOI<br><span class="text-white opacity-20">/</span><br><span class="gradient-text">O00010O</span>
+            </div>
+            <p class="text-gray-400 tracking-[0.4em] uppercase text-[10px] md:text-xs mb-12">Israel · Psytrance · Generative Art</p>
             
-            <div class="grid gap-4 w-full max-w-xs interactive">
-                <a href="#music" class="glass p-4 text-xs font-bold tracking-widest uppercase hover:bg-purple-500/20 transition border-purple-500/30">Enter Music</a>
-                <a href="#visuals" class="glass p-4 text-xs font-bold tracking-widest uppercase hover:bg-cyan-500/20 transition border-cyan-500/30">Visuals Gallery</a>
+            <div class="grid grid-cols-1 gap-4 w-full max-w-xs interactive">
+                <a href="#music" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-purple-500/20 transition border-purple-500/30">Music Architecture</a>
+                <a href="#visuals" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-cyan-500/20 transition border-cyan-500/30">Generative Magic</a>
             </div>
         </section>
 
-        <!-- Music List -->
-        <section id="music" class="max-w-md mx-auto px-6 space-y-4 pb-40">
-            <h2 class="text-[10px] font-bold tracking-[0.5em] uppercase text-center opacity-40 mb-8">Latest Releases</h2>
+        <!-- Music Section -->
+        <section id="music" class="max-w-md mx-auto px-6 space-y-6 pb-32">
+            <div class="text-center space-y-2 mb-10">
+                <h2 class="text-xs font-bold tracking-[0.5em] uppercase opacity-40">Sonic Releases</h2>
+                <div class="h-[1px] w-12 bg-purple-500/50 mx-auto"></div>
+            </div>
+            
             <div class="space-y-3 interactive">
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:scale-105 transition-transform">
-                    <span class="text-sm font-bold tracking-tight uppercase">Moonspot</span>
-                    <span class="text-[9px] opacity-40 uppercase">Alteza</span>
+                <!-- Real Beatport Data from ID 230769 -->
+                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:bg-white/5 transition-all group">
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Moonspot</span>
+                        <span class="text-[8px] opacity-30 uppercase tracking-widest">Alteza Records</span>
+                    </div>
+                    <i class="fa-solid fa-play text-[10px] opacity-20 group-hover:opacity-100 transition"></i>
                 </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:scale-105 transition-transform">
-                    <span class="text-sm font-bold tracking-tight uppercase">Pragmatix Remix</span>
-                    <span class="text-[9px] opacity-40 uppercase">Morion</span>
+                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:bg-white/5 transition-all group">
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Pragmatix Remix</span>
+                        <span class="text-[8px] opacity-30 uppercase tracking-widest">Morion Records</span>
+                    </div>
+                    <i class="fa-solid fa-play text-[10px] opacity-20 group-hover:opacity-100 transition"></i>
                 </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:scale-105 transition-transform">
-                    <span class="text-sm font-bold tracking-tight uppercase">Lucid Mask</span>
-                    <span class="text-[9px] opacity-40 uppercase">United Beats</span>
+                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:bg-white/5 transition-all group">
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Lucid Mask</span>
+                        <span class="text-[8px] opacity-30 uppercase tracking-widest">United Beats</span>
+                    </div>
+                    <i class="fa-solid fa-play text-[10px] opacity-20 group-hover:opacity-100 transition"></i>
                 </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:scale-105 transition-transform">
-                    <span class="text-sm font-bold tracking-tight uppercase">Shamanic Call</span>
-                    <span class="text-[9px] opacity-40 uppercase">IONO Music</span>
+            </div>
+
+            <!-- Extended Links -->
+            <div class="grid grid-cols-2 gap-3 pt-6 interactive">
+                <a href="https://soundcloud.com/koi-boi" target="_blank" class="glass p-4 flex flex-col items-center gap-2 hover:bg-white/5 transition">
+                    <i class="fa-brands fa-soundcloud text-orange-500"></i>
+                    <span class="text-[8px] font-bold tracking-widest">SOUNDCLOUD</span>
                 </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:scale-105 transition-transform">
-                    <span class="text-sm font-bold tracking-tight uppercase">Digital Jungle</span>
-                    <span class="text-[9px] opacity-40 uppercase">Alteza</span>
+                <a href="https://open.spotify.com/search/koi%20boi" target="_blank" class="glass p-4 flex flex-col items-center gap-2 hover:bg-white/5 transition">
+                    <i class="fa-brands fa-spotify text-green-500"></i>
+                    <span class="text-[8px] font-bold tracking-widest">SPOTIFY</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Visuals Section -->
+        <section id="visuals" class="max-w-md mx-auto px-6 space-y-6 pb-32">
+            <div class="text-center space-y-2 mb-10">
+                <h2 class="text-xs font-bold tracking-[0.5em] uppercase opacity-40">Visual Network</h2>
+                <div class="h-[1px] w-12 bg-cyan-500/50 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3 interactive">
+                <a href="https://www.instagram.com/koiboi_edit_" target="_blank" class="glass p-5 flex justify-between items-center hover:bg-white/5 transition border-l-2 border-cyan-500">
+                    <span class="text-[10px] font-bold tracking-widest uppercase">Generative Art Portfolio</span>
+                    <i class="fa-brands fa-instagram text-sm"></i>
+                </a>
+                <a href="https://www.tiktok.com/@koiboimusix" target="_blank" class="glass p-5 flex justify-between items-center hover:bg-white/5 transition border-l-2 border-cyan-500">
+                    <span class="text-[10px] font-bold tracking-widest uppercase">Live Visual Clips</span>
+                    <i class="fa-brands fa-tiktok text-sm"></i>
+                </a>
+                <a href="https://www.youtube.com/@koiboi2119" target="_blank" class="glass p-5 flex justify-between items-center hover:bg-white/5 transition border-l-2 border-cyan-500">
+                    <span class="text-[10px] font-bold tracking-widest uppercase">AV Performances</span>
+                    <i class="fa-brands fa-youtube text-sm"></i>
                 </a>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer class="py-10 text-center opacity-20 text-[10px] tracking-widest uppercase">
-            &copy; 2026 // Built in the Matrix
+        <footer class="py-20 text-center space-y-4 interactive">
+            <div class="flex justify-center gap-6 opacity-30">
+                <a href="https://www.facebook.com/koiboi" target="_blank" class="hover:opacity-100 transition"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.youtube.com/KOIBOI" target="_blank" class="hover:opacity-100 transition"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <p class="opacity-20 text-[8px] tracking-[0.4em] uppercase">
+                &copy; 2026 // Senior Partner Framework // OpenClaw Orchestrated
+            </p>
         </footer>
 
     </div>
 
-    <!-- THREE.JS & CANNON.JS for 3D -->
+    <!-- THREE.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        let scene, camera, renderer, particles, torus;
+        let scene, camera, renderer, particles, torus, clock;
 
         function init() {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.z = 5;
+            clock = new THREE.Clock();
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-            // Add Psychedelic Torus
-            const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32);
-            const material = new THREE.MeshNormalMaterial({ wireframe: true });
+            // Psychedelic Torus Knot
+            const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 250, 40);
+            const material = new THREE.MeshNormalMaterial({ 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.8
+            });
             torus = new THREE.Mesh(geometry, material);
             scene.add(torus);
 
-            // Add Moving Space Particles
+            // Space Particles
             const pGeometry = new THREE.BufferGeometry();
-            const pCount = 2000;
+            const pCount = window.innerWidth < 600 ? 1500 : 3000;
             const posArray = new Float32Array(pCount * 3);
 
             for(let i=0; i < pCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 15;
+                posArray[i] = (Math.random() - 0.5) * 20;
             }
 
             pGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const pMaterial = new THREE.PointsMaterial({ size: 0.005, color: '#a855f7' });
+            const pMaterial = new THREE.PointsMaterial({ 
+                size: 0.008, 
+                color: '#a855f7',
+                transparent: true,
+                opacity: 0.6
+            });
             particles = new THREE.Points(pGeometry, pMaterial);
             scene.add(particles);
 
@@ -159,14 +223,16 @@
         }
 
         function animate() {
+            const elapsedTime = clock.getElapsedTime();
             requestAnimationFrame(animate);
 
-            torus.rotation.x += 0.01;
-            torus.rotation.y += 0.01;
+            // Animations
+            torus.rotation.x = elapsedTime * 0.2;
+            torus.rotation.y = elapsedTime * 0.3;
+            torus.scale.setScalar(1 + Math.sin(elapsedTime * 0.5) * 0.1);
             
-            particles.rotation.y += 0.002;
-            particles.position.z += 0.01;
-            if(particles.position.z > 2) particles.position.z = 0;
+            particles.rotation.y = elapsedTime * 0.05;
+            particles.position.z = Math.sin(elapsedTime * 0.2) * 0.5;
 
             renderer.render(scene, camera);
         }
