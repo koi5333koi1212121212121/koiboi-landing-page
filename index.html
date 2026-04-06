@@ -53,10 +53,25 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        /* Mobile Optimization */
         @media (max-width: 640px) {
             .hero-title {
-                font-size: 3.5rem;
-                line-height: 1.1;
+                font-size: 3.2rem;
+                line-height: 1;
+                letter-spacing: -0.05em;
+            }
+            .content-overlay {
+                padding-bottom: 60px;
+            }
+            nav {
+                padding: 1rem;
+            }
+            .glass {
+                border-radius: 16px;
+            }
+            section {
+                padding-top: 2rem !important;
+                padding-bottom: 4rem !important;
             }
         }
     </style>
@@ -77,81 +92,81 @@
         </nav>
 
         <!-- Hero Section -->
-        <section class="flex flex-col justify-center items-center text-center px-6 pt-16 pb-32">
-            <div class="hero-title font-black neon-text uppercase tracking-tighter mb-4 text-6xl md:text-9xl">
+        <section class="flex flex-col justify-center items-center text-center px-4 pt-12 pb-24 min-h-[90vh]">
+            <div class="hero-title font-black neon-text uppercase tracking-tighter mb-4 text-5xl md:text-9xl">
                 <span class="neon-green">KOIBOI</span><br><span class="text-white opacity-20">/</span><br><span class="gradient-text">O00010O</span>
             </div>
-            <p class="text-gray-400 tracking-[0.4em] uppercase text-[10px] md:text-xs mb-12">Israel · Psytrance · Generative Art</p>
+            <p class="text-gray-400 tracking-[0.3em] uppercase text-[9px] md:text-xs mb-10 px-4">Israel · Psytrance · Generative Art</p>
             
-            <div class="grid grid-cols-1 gap-4 w-full max-w-xs interactive">
-                <a href="#music" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-purple-500/20 transition border-purple-500/30">Music architecture</a>
-                <a href="#visuals" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-cyan-500/20 transition border-cyan-500/30">Visual network</a>
+            <div class="grid grid-cols-1 gap-3 w-full max-w-[280px] interactive">
+                <a href="#music" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-purple-500/20 transition border-purple-500/30">Explore Music</a>
+                <a href="#visuals" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-cyan-500/20 transition border-cyan-500/30">Visual Network</a>
             </div>
         </section>
 
         <!-- Music Section -->
-        <section id="music" class="max-w-md mx-auto px-6 space-y-6 pb-32">
-            <div class="text-center space-y-2 mb-10">
-                <h2 class="text-xs font-bold tracking-[0.5em] uppercase opacity-40">Latest Releases</h2>
-                <div class="h-[1px] w-12 bg-purple-500/50 mx-auto"></div>
+        <section id="music" class="max-w-md mx-auto px-4 space-y-6 pb-24">
+            <div class="text-center space-y-2 mb-8">
+                <h2 class="text-[9px] font-bold tracking-[0.5em] uppercase opacity-40">Latest Releases</h2>
+                <div class="h-[1px] w-10 bg-purple-500/50 mx-auto"></div>
             </div>
             
-            <div class="space-y-3 interactive">
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:bg-white/5 transition-all group">
+            <div class="space-y-2 interactive">
+                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-4 hover:bg-purple-900/10 transition-all group border-l-2 border-transparent hover:border-purple-500">
                     <div class="flex flex-col">
-                        <span class="text-sm font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Moonspot</span>
-                        <span class="text-[8px] opacity-30 uppercase tracking-widest">Alteza Records</span>
+                        <span class="text-xs font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Moonspot</span>
+                        <span class="text-[7px] opacity-30 uppercase tracking-widest">Alteza Records</span>
                     </div>
-                    <i class="fa-solid fa-play text-[10px] opacity-20 group-hover:opacity-100 transition"></i>
+                    <i class="fa-solid fa-play text-[9px] opacity-20"></i>
                 </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:bg-white/5 transition-all group">
+                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-4 hover:bg-purple-900/10 transition-all group border-l-2 border-transparent hover:border-purple-500">
                     <div class="flex flex-col">
-                        <span class="text-sm font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Pragmatix Remix</span>
-                        <span class="text-[8px] opacity-30 uppercase tracking-widest">Morion Records</span>
+                        <span class="text-xs font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Pragmatix Remix</span>
+                        <span class="text-[7px] opacity-30 uppercase tracking-widest">Morion Records</span>
                     </div>
-                    <i class="fa-solid fa-play text-[10px] opacity-20 group-hover:opacity-100 transition"></i>
+                    <i class="fa-solid fa-play text-[9px] opacity-20"></i>
                 </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-5 hover:bg-white/5 transition-all group">
+                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-4 hover:bg-purple-900/10 transition-all group border-l-2 border-transparent hover:border-purple-500">
                     <div class="flex flex-col">
-                        <span class="text-sm font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Lucid Mask</span>
-                        <span class="text-[8px] opacity-30 uppercase tracking-widest">United Beats</span>
+                        <span class="text-xs font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Lucid Mask</span>
+                        <span class="text-[7px] opacity-30 uppercase tracking-widest">United Beats</span>
                     </div>
-                    <i class="fa-solid fa-play text-[10px] opacity-20 group-hover:opacity-100 transition"></i>
+                    <i class="fa-solid fa-play text-[9px] opacity-20"></i>
                 </a>
             </div>
 
             <!-- Social Media Grid -->
-            <div class="grid grid-cols-2 gap-3 pt-6 interactive">
-                <a href="https://soundcloud.com/koi-boi" target="_blank" class="glass p-4 flex flex-col items-center gap-2 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-soundcloud text-orange-500 text-xl"></i>
-                    <span class="text-[8px] font-bold tracking-widest uppercase">Soundcloud</span>
+            <div class="grid grid-cols-2 gap-2 pt-4 interactive">
+                <a href="https://soundcloud.com/koi-boi" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
+                    <i class="fa-brands fa-soundcloud text-orange-500 text-lg"></i>
+                    <span class="text-[7px] font-bold tracking-widest uppercase">Soundcloud</span>
                 </a>
-                <a href="https://open.spotify.com/search/koi%20boi" target="_blank" class="glass p-4 flex flex-col items-center gap-2 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-spotify text-green-500 text-xl"></i>
-                    <span class="text-[8px] font-bold tracking-widest uppercase">Spotify</span>
+                <a href="https://open.spotify.com/search/koi%20boi" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
+                    <i class="fa-brands fa-spotify text-green-500 text-lg"></i>
+                    <span class="text-[7px] font-bold tracking-widest uppercase">Spotify</span>
                 </a>
-                <a href="https://www.youtube.com/@koiboi2119" target="_blank" class="glass p-4 flex flex-col items-center gap-2 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-youtube text-red-600 text-xl"></i>
-                    <span class="text-[8px] font-bold tracking-widest uppercase">YouTube</span>
+                <a href="https://www.youtube.com/@koiboi2119" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
+                    <i class="fa-brands fa-youtube text-red-600 text-lg"></i>
+                    <span class="text-[7px] font-bold tracking-widest uppercase">YouTube</span>
                 </a>
-                <a href="https://www.tiktok.com/@koiboimusix" target="_blank" class="glass p-4 flex flex-col items-center gap-2 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-tiktok text-white text-xl"></i>
-                    <span class="text-[8px] font-bold tracking-widest uppercase">TikTok</span>
+                <a href="https://www.tiktok.com/@koiboimusix" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
+                    <i class="fa-brands fa-tiktok text-white text-lg"></i>
+                    <span class="text-[7px] font-bold tracking-widest uppercase">TikTok</span>
                 </a>
             </div>
         </section>
 
         <!-- Visuals Section -->
-        <section id="visuals" class="max-w-md mx-auto px-6 space-y-6 pb-32">
-            <div class="text-center space-y-2 mb-10">
-                <h2 class="text-xs font-bold tracking-[0.5em] uppercase opacity-40">Visual Network</h2>
-                <div class="h-[1px] w-12 bg-cyan-500/50 mx-auto"></div>
+        <section id="visuals" class="max-w-md mx-auto px-4 space-y-6 pb-24">
+            <div class="text-center space-y-2 mb-8">
+                <h2 class="text-[9px] font-bold tracking-[0.5em] uppercase opacity-40">Visual Network</h2>
+                <div class="h-[1px] w-10 bg-cyan-500/50 mx-auto"></div>
             </div>
 
-            <div class="grid grid-cols-1 gap-3 interactive">
-                <a href="https://www.instagram.com/koiboi_edit_" target="_blank" class="glass p-5 flex justify-between items-center hover:bg-white/5 transition border-l-2 border-cyan-500">
-                    <span class="text-[10px] font-bold tracking-widest uppercase">Visual Portfolio</span>
-                    <i class="fa-brands fa-instagram text-cyan-400"></i>
+            <div class="grid grid-cols-1 gap-2 interactive">
+                <a href="https://www.instagram.com/koiboi_edit_" target="_blank" class="glass p-4 flex justify-between items-center hover:bg-white/5 transition border-l-2 border-cyan-500">
+                    <span class="text-[9px] font-bold tracking-widest uppercase">Visual Portfolio</span>
+                    <i class="fa-brands fa-instagram text-cyan-400 text-xs"></i>
                 </a>
             </div>
         </section>
