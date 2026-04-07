@@ -1,238 +1,1170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KOIBOI / O00010O | 3D Universe</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-            background-color: #000;
-            font-family: 'Inter', sans-serif;
-            color: #fff;
-            scroll-behavior: smooth;
-        }
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        .content-overlay {
-            position: relative;
-            z-index: 10;
-            pointer-events: none;
-        }
-        .interactive {
-            pointer-events: auto;
-        }
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-        }
-        .neon-green {
-            color: #39ff14;
-            text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14, 0 0 20px #39ff14;
-        }
-        .neon-text {
-            font-family: 'Orbitron', sans-serif;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #a855f7, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        /* Mobile Optimization */
-        @media (max-width: 640px) {
-            .hero-title {
-                font-size: 3.2rem;
-                line-height: 1;
-                letter-spacing: -0.05em;
-            }
-            .content-overlay {
-                padding-bottom: 60px;
-            }
-            nav {
-                padding: 1rem;
-            }
-            .glass {
-                border-radius: 16px;
-            }
-            section {
-                padding-top: 2rem !important;
-                padding-bottom: 4rem !important;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KOI BOI | Yakir Moskovich — Psytrance · DJ · VJ · Visual Artist</title>
+  <meta name="description" content="KOI BOI / Yakir Moskovich — Psytrance producer, DJ, VJ and generative visual artist from Israel. Active since 2005. Labels: IONO Music, Alteza Records, United Beats Records." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: #040408;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ─── CANVAS ─── */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ─── LAYOUT ─── */
+    .site-wrapper {
+      position: relative;
+      z-index: 10;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── COLORS ─── */
+    :root {
+      --purple: #a855f7;
+      --pink: #ec4899;
+      --cyan: #06b6d4;
+      --blue: #3b82f6;
+      --bg: #040408;
+      --text-dim: rgba(255,255,255,0.6);
+      --text-dimmer: rgba(255,255,255,0.35);
+      --glass-bg: rgba(255,255,255,0.035);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+
+    /* ─── GLASS CARD ─── */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+    }
+
+    /* ─── GRADIENT TEXT ─── */
+    .grad-purple-cyan {
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .grad-purple-pink {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    .font-orbitron { font-family: 'Orbitron', sans-serif; }
+    .text-dim { color: var(--text-dim); }
+    .text-dimmer { color: var(--text-dimmer); }
+
+    /* ─── SCROLL ANIMATION ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── FIXED NAV ─── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(4,4,8,0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .nav-logo span { color: var(--purple); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-social {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .nav-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .nav-social a:hover {
+      color: #fff;
+      border-color: var(--purple);
+      background: rgba(168,85,247,0.12);
+    }
+    /* hamburger hidden on desktop */
+    .nav-toggle { display: none; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-social { display: none; }
+      .nav-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 6px;
+        background: none;
+        border: none;
+      }
+      .nav-toggle span {
+        display: block;
+        width: 24px; height: 2px;
+        background: #fff;
+        border-radius: 2px;
+        transition: transform 0.3s;
+      }
+      .nav-mobile-open .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: rgba(4,4,8,0.95);
+        padding: 24px;
+        gap: 20px;
+        border-bottom: 1px solid var(--glass-border);
+        z-index: 99;
+      }
+      .nav-mobile-open .nav-social {
+        display: flex;
+        position: fixed;
+        top: calc(64px + 160px); left: 0; right: 0;
+        justify-content: center;
+        background: rgba(4,4,8,0.95);
+        padding: 16px 24px 24px;
+        border-bottom: 1px solid var(--glass-border);
+        z-index: 99;
+      }
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px 80px;
+    }
+    .hero-eyebrow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(52px, 10vw, 120px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero-alias {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 400;
+      font-size: clamp(16px, 3vw, 32px);
+      letter-spacing: 0.3em;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+    .hero-tags {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      color: var(--text-dim);
+    }
+    .tag.purple { border-color: rgba(168,85,247,0.4); color: var(--purple); background: rgba(168,85,247,0.08); }
+    .tag.cyan { border-color: rgba(6,182,212,0.4); color: var(--cyan); background: rgba(6,182,212,0.08); }
+    .tag.pink { border-color: rgba(236,72,153,0.4); color: var(--pink); background: rgba(236,72,153,0.08); }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 64px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: #fff;
+      border: none;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+    .btn-ghost {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-dim);
+    }
+    .btn-ghost:hover { color: #fff; border-color: var(--cyan); background: rgba(6,182,212,0.08); transform: translateY(-2px); }
+    .scroll-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dimmer);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: float 2s ease-in-out infinite;
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 2px solid var(--text-dimmer);
+      border-bottom: 2px solid var(--text-dimmer);
+      transform: rotate(45deg);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 100px 0; }
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 5vw, 52px);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .section-divider {
+      width: 48px; height: 2px;
+      border-radius: 2px;
+      margin-bottom: 48px;
+    }
+    .section-divider.purple { background: linear-gradient(90deg, var(--purple), transparent); }
+    .section-divider.cyan { background: linear-gradient(90deg, var(--cyan), transparent); }
+    .section-divider.pink { background: linear-gradient(90deg, var(--pink), transparent); }
+
+    /* ─── ABOUT ─── */
+    #about { background: linear-gradient(180deg, rgba(168,85,247,0.03) 0%, transparent 100%); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .about-bio {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text-dim);
+      font-weight: 300;
+    }
+    .about-bio strong { color: #fff; font-weight: 600; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .stat-card {
+      padding: 24px;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 36px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+    }
+    .labels-list {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .label-badge {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 6px;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.25);
+      color: var(--purple);
+    }
+
+    /* ─── MUSIC ─── */
+    #music { background: linear-gradient(180deg, transparent, rgba(168,85,247,0.04) 50%, transparent); }
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 900px) {
+      .releases-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 580px) {
+      .releases-grid { grid-template-columns: 1fr; }
+    }
+    .release-card {
+      padding: 28px 24px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      border-left: 2px solid transparent;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(168,85,247,0.06) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .release-card:hover { border-left-color: var(--purple); transform: translateY(-3px); }
+    .release-card:hover::before { opacity: 1; }
+    .release-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .release-card:hover .release-name { color: var(--purple); }
+    .release-label-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+      margin-bottom: 16px;
+    }
+    .release-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple);
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .release-card:hover .release-link { opacity: 1; }
+
+    .streaming-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+      margin-bottom: 20px;
+    }
+    .streaming-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 768px) {
+      .streaming-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stream-card {
+      padding: 20px 16px;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    .stream-card:hover { transform: translateY(-3px); }
+    .stream-icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+    .stream-name {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ─── VISUALS ─── */
+    #visuals { background: linear-gradient(180deg, transparent, rgba(6,182,212,0.03) 50%, transparent); }
+    .visuals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .visuals-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 580px) {
+      .visuals-grid { grid-template-columns: 1fr; }
+    }
+    .visual-card {
+      padding: 32px 28px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: all 0.25s;
+      border-top: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .visual-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(6,182,212,0.06) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .visual-card:hover { border-top-color: var(--cyan); transform: translateY(-3px); }
+    .visual-card:hover::before { opacity: 1; }
+    .visual-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .visual-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .visual-card:hover .visual-title { color: var(--cyan); }
+    .visual-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-dimmer);
+      margin-bottom: 20px;
+    }
+    .visual-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .visual-card:hover .visual-link { opacity: 1; }
+
+    /* ─── CONTACT ─── */
+    #contact { background: linear-gradient(180deg, transparent, rgba(236,72,153,0.03) 50%, rgba(59,130,246,0.02) 100%); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .contact-intro {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      background: rgba(236,72,153,0.08);
+      border: 1px solid rgba(236,72,153,0.25);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--pink);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .contact-email:hover { background: rgba(236,72,153,0.15); transform: translateY(-2px); }
+    .social-full-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .social-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      text-decoration: none;
+      color: var(--text-dim);
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .social-row:hover { color: #fff; transform: translateY(-2px); }
+    .social-row:hover.ig { border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.08); }
+    .social-row:hover.ig2 { border-color: rgba(6,182,212,0.4); background: rgba(6,182,212,0.08); }
+    .social-row:hover.bp { border-color: rgba(236,72,153,0.4); background: rgba(236,72,153,0.08); }
+    .social-row:hover.sc { border-color: rgba(249,115,22,0.4); background: rgba(249,115,22,0.08); }
+    .social-row:hover.sp { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.08); }
+    .social-row:hover.yt { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.08); }
+    .social-row:hover.tt { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); }
+    .social-row:hover.fb { border-color: rgba(59,130,246,0.4); background: rgba(59,130,246,0.08); }
+    .social-icon { width: 20px; text-align: center; font-size: 16px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .footer-logo span { color: var(--purple); }
+    .footer-sub {
+      font-size: 13px;
+      color: var(--text-dimmer);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-dimmer);
+      letter-spacing: 0.15em;
+    }
+  </style>
 </head>
 <body>
 
-    <div id="canvas-container"></div>
+<canvas id="bg-canvas"></canvas>
 
-    <div class="content-overlay min-h-screen">
-        
-        <!-- Navigation -->
-        <nav class="p-6 flex justify-between items-center interactive">
-            <div class="text-lg font-black neon-text tracking-tighter"><span class="neon-green">KOIBOI</span> / O00010O</div>
-            <div class="flex gap-3">
-                <a href="https://www.instagram.com/koi_boi" target="_blank" class="w-9 h-9 glass flex items-center justify-center hover:bg-white/10 transition"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="w-9 h-9 glass flex items-center justify-center hover:bg-white/10 transition"><i class="fa-solid fa-headphones"></i></a>
-            </div>
-        </nav>
+<div class="site-wrapper">
 
-        <!-- Hero Section -->
-        <section class="flex flex-col justify-center items-center text-center px-4 pt-12 pb-24 min-h-[90vh]">
-            <div class="hero-title font-black neon-text uppercase tracking-tighter mb-4 text-5xl md:text-9xl">
-                <span class="neon-green">KOIBOI</span><br><span class="text-white opacity-20">/</span><br><span class="gradient-text">O00010O</span>
-            </div>
-            <p class="text-gray-400 tracking-[0.3em] uppercase text-[9px] md:text-xs mb-10 px-4">Israel · Psytrance · Generative Art</p>
-            
-            <div class="grid grid-cols-1 gap-3 w-full max-w-[280px] interactive">
-                <a href="#music" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-purple-500/20 transition border-purple-500/30">Explore Music</a>
-                <a href="#visuals" class="glass p-4 text-[10px] font-bold tracking-widest uppercase hover:bg-cyan-500/20 transition border-cyan-500/30">Visual Network</a>
-            </div>
-        </section>
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo"><span>KOI</span>BOI</a>
 
-        <!-- Music Section -->
-        <section id="music" class="max-w-md mx-auto px-4 space-y-6 pb-24">
-            <div class="text-center space-y-2 mb-8">
-                <h2 class="text-[9px] font-bold tracking-[0.5em] uppercase opacity-40">Latest Releases</h2>
-                <div class="h-[1px] w-10 bg-purple-500/50 mx-auto"></div>
-            </div>
-            
-            <div class="space-y-2 interactive">
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-4 hover:bg-purple-900/10 transition-all group border-l-2 border-transparent hover:border-purple-500">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Moonspot</span>
-                        <span class="text-[7px] opacity-30 uppercase tracking-widest">Alteza Records</span>
-                    </div>
-                    <i class="fa-solid fa-play text-[9px] opacity-20"></i>
-                </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-4 hover:bg-purple-900/10 transition-all group border-l-2 border-transparent hover:border-purple-500">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Pragmatix Remix</span>
-                        <span class="text-[7px] opacity-30 uppercase tracking-widest">Morion Records</span>
-                    </div>
-                    <i class="fa-solid fa-play text-[9px] opacity-20"></i>
-                </a>
-                <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" class="flex justify-between items-center glass p-4 hover:bg-purple-900/10 transition-all group border-l-2 border-transparent hover:border-purple-500">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold tracking-tight uppercase group-hover:text-purple-400 transition">Lucid Mask</span>
-                        <span class="text-[7px] opacity-30 uppercase tracking-widest">United Beats</span>
-                    </div>
-                    <i class="fa-solid fa-play text-[9px] opacity-20"></i>
-                </a>
-            </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#music">Music</a></li>
+      <li><a href="#visuals">Visuals</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
 
-            <!-- Social Media Grid -->
-            <div class="grid grid-cols-2 gap-2 pt-4 interactive">
-                <a href="https://soundcloud.com/koi-boi" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-soundcloud text-orange-500 text-lg"></i>
-                    <span class="text-[7px] font-bold tracking-widest uppercase">Soundcloud</span>
-                </a>
-                <a href="https://open.spotify.com/search/koi%20boi" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-spotify text-green-500 text-lg"></i>
-                    <span class="text-[7px] font-bold tracking-widest uppercase">Spotify</span>
-                </a>
-                <a href="https://www.youtube.com/@koiboi2119" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-youtube text-red-600 text-lg"></i>
-                    <span class="text-[7px] font-bold tracking-widest uppercase">YouTube</span>
-                </a>
-                <a href="https://www.tiktok.com/@koiboimusix" target="_blank" class="glass p-3 flex flex-col items-center gap-1 hover:bg-white/10 transition">
-                    <i class="fa-brands fa-tiktok text-white text-lg"></i>
-                    <span class="text-[7px] font-bold tracking-widest uppercase">TikTok</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- Visuals Section -->
-        <section id="visuals" class="max-w-md mx-auto px-4 space-y-6 pb-24">
-            <div class="text-center space-y-2 mb-8">
-                <h2 class="text-[9px] font-bold tracking-[0.5em] uppercase opacity-40">Visual Network</h2>
-                <div class="h-[1px] w-10 bg-cyan-500/50 mx-auto"></div>
-            </div>
-
-            <div class="grid grid-cols-1 gap-2 interactive">
-                <a href="https://www.instagram.com/koiboi_edit_" target="_blank" class="glass p-4 flex justify-between items-center hover:bg-white/5 transition border-l-2 border-cyan-500">
-                    <span class="text-[9px] font-bold tracking-widest uppercase">Visual Portfolio</span>
-                    <i class="fa-brands fa-instagram text-cyan-400 text-xs"></i>
-                </a>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="py-20 text-center space-y-4 interactive">
-            <p class="opacity-20 text-[8px] tracking-[0.4em] uppercase">
-                &copy; 2026 // Senior Partner Framework
-            </p>
-        </footer>
-
+    <div class="nav-social" id="nav-social">
+      <a href="https://www.instagram.com/koi_boi" target="_blank" rel="noopener" title="Instagram Music">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://soundcloud.com/koi-boi" target="_blank" rel="noopener" title="SoundCloud">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.56 8.87V17h8.76C21.78 17 23 15.76 23 14.23c0-1.53-1.22-2.77-2.68-2.77-.21 0-.42.03-.63.08-.48-2.26-2.53-3.95-4.98-3.95-1.12 0-2.16.34-3.03.91l-.12.37zM0 15c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2 .9-2 2zm6.44 0c0 .98.8 1.78 1.78 1.78.98 0 1.78-.8 1.78-1.78V9.56c-.48-.22-1.01-.34-1.56-.34-2.1 0-3.8 1.7-3.8 3.8 0 .69.19 1.34.52 1.9l.01.01c-.43-.38-.73-.92-.73-1.53V9.74c-.55.47-.96 1.1-1.14 1.82-.48-2.26-2.53-3.95-4.98-3.95h-.17v7h.17c.65 0 1.27-.15 1.82-.42.02 0 .04-.01.07-.01.98 0 1.78.8 1.78 1.78z"/></svg>
+      </a>
+      <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" rel="noopener" title="Beatport">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.75 17.25h-1.5V9.75h1.5v7.5zm3-3h-1.5v-4.5h1.5v4.5zm-6 0H8.25v-4.5h1.5v4.5z"/></svg>
+      </a>
     </div>
 
-    <!-- THREE.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        let scene, camera, renderer, particles, torus, clock;
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5;
-            clock = new THREE.Clock();
+  <!-- ═══ HERO ═══ -->
+  <section id="hero">
+    <p class="hero-eyebrow reveal">Israel · Active Since 2005</p>
+    <h1 class="hero-title reveal reveal-delay-1">
+      <span class="grad-purple-cyan">KOI BOI</span>
+    </h1>
+    <p class="hero-alias reveal reveal-delay-2">O00010O</p>
+    <div class="hero-tags reveal reveal-delay-3">
+      <span class="tag purple">Psytrance Producer</span>
+      <span class="tag cyan">DJ</span>
+      <span class="tag pink">VJ</span>
+      <span class="tag">Visual Artist</span>
+      <span class="tag">Generative Art</span>
+    </div>
+    <div class="hero-cta reveal reveal-delay-4">
+      <a href="#music" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Explore Music
+      </a>
+      <a href="#about" class="btn btn-ghost">About</a>
+      <a href="#contact" class="btn btn-ghost">Book a Show</a>
+    </div>
+    <div class="scroll-indicator reveal">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
+  <!-- ═══ ABOUT ═══ -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label reveal">The Artist</p>
+      <h2 class="section-title reveal reveal-delay-1"><span class="grad-purple-pink">About</span></h2>
+      <div class="section-divider purple reveal reveal-delay-2"></div>
 
-            const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 250, 40);
-            const material = new THREE.MeshNormalMaterial({ 
-                wireframe: true,
-                transparent: true,
-                opacity: 0.8
-            });
-            torus = new THREE.Mesh(geometry, material);
-            scene.add(torus);
+      <div class="about-grid">
+        <div class="reveal reveal-delay-1">
+          <p class="about-bio">
+            <strong>Yakir Moskovich</strong> — known as <strong>KOI BOI</strong> — has been crafting deep, cosmic psytrance since <strong>2005</strong>. Born and based in <strong>Israel</strong>, his sound blends hypnotic basslines, intricate layering, and otherworldly atmospheres that have earned him releases on some of the scene's most respected labels.
+          </p>
+          <p class="about-bio" style="margin-top:20px;">
+            Under the visual alias <strong>O00010O</strong>, he extends his art into real-time generative visuals, TouchDesigner patches, and live VJ performances — creating immersive audio-visual experiences that take the psytrance journey to another dimension.
+          </p>
+          <div class="labels-list">
+            <span class="label-badge">IONO Music</span>
+            <span class="label-badge">Alteza Records</span>
+            <span class="label-badge">United Beats Records</span>
+            <span class="label-badge">Morion Records</span>
+          </div>
+        </div>
 
-            const pGeometry = new THREE.BufferGeometry();
-            const pCount = window.innerWidth < 600 ? 1500 : 3000;
-            const posArray = new Float32Array(pCount * 3);
-            for(let i=0; i < pCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 20; }
-            pGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const pMaterial = new THREE.PointsMaterial({ size: 0.008, color: '#39ff14', transparent: true, opacity: 0.6 });
-            particles = new THREE.Points(pGeometry, pMaterial);
-            scene.add(particles);
+        <div class="about-stats reveal reveal-delay-2">
+          <div class="stat-card glass">
+            <div class="stat-number grad-purple-cyan">20+</div>
+            <div class="stat-label">Years Active</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-number grad-purple-cyan">4</div>
+            <div class="stat-label">Labels</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-number grad-purple-cyan">∞</div>
+            <div class="stat-label">Sets Played</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-number grad-purple-cyan">IL</div>
+            <div class="stat-label">Israel</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            animate();
-        }
+  <!-- ═══ MUSIC ═══ -->
+  <section id="music">
+    <div class="container">
+      <p class="section-label reveal">Discography</p>
+      <h2 class="section-title reveal reveal-delay-1"><span class="grad-purple-pink">Music</span></h2>
+      <div class="section-divider purple reveal reveal-delay-2"></div>
 
-        function animate() {
-            const elapsedTime = clock.getElapsedTime();
-            requestAnimationFrame(animate);
-            torus.rotation.x = elapsedTime * 0.2;
-            torus.rotation.y = elapsedTime * 0.3;
-            particles.rotation.y = elapsedTime * 0.05;
-            renderer.render(scene, camera);
-        }
+      <div class="releases-grid">
+        <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" rel="noopener" class="release-card glass reveal">
+          <div class="release-name">Moonspot</div>
+          <div class="release-label-badge">Alteza Records</div>
+          <div class="release-link">
+            Listen on Beatport
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3v2H7v14h14v-7h2v9H5V3h9zm5 0V1h2v6h-2V3zm0 0h-4V1h4v2zm-1.586 2.586L8.83 14.17l-1.414-1.414L16 4.17l1.414 1.416z"/></svg>
+          </div>
+        </a>
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" rel="noopener" class="release-card glass reveal reveal-delay-1">
+          <div class="release-name">Pragmatix Remix</div>
+          <div class="release-label-badge">Morion Records</div>
+          <div class="release-link">
+            Listen on Beatport
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3v2H7v14h14v-7h2v9H5V3h9zm5 0V1h2v6h-2V3zm0 0h-4V1h4v2zm-1.586 2.586L8.83 14.17l-1.414-1.414L16 4.17l1.414 1.416z"/></svg>
+          </div>
+        </a>
 
-        init();
-    </script>
+        <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" rel="noopener" class="release-card glass reveal reveal-delay-2">
+          <div class="release-name">Lucid Mask</div>
+          <div class="release-label-badge">United Beats Records</div>
+          <div class="release-link">
+            Listen on Beatport
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3v2H7v14h14v-7h2v9H5V3h9zm5 0V1h2v6h-2V3zm0 0h-4V1h4v2zm-1.586 2.586L8.83 14.17l-1.414-1.414L16 4.17l1.414 1.416z"/></svg>
+          </div>
+        </a>
+      </div>
+
+      <p class="streaming-title reveal">Stream &amp; Download</p>
+      <div class="streaming-grid">
+        <a href="https://soundcloud.com/koi-boi" target="_blank" rel="noopener" class="stream-card glass reveal">
+          <div class="stream-icon" style="color:#f97316">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M1.175 12.225c-.042 0-.083.008-.125.008C.458 12.233 0 11.775 0 11.217c0-.558.458-1.017 1.05-1.017.067 0 .133.008.2.017C1.483 8.942 2.717 8 4.167 8c.583 0 1.125.158 1.583.433.008-.117.017-.233.017-.35C5.767 5.833 7.6 4 9.85 4c1.267 0 2.383.55 3.167 1.433C13.583 4.55 14.717 4 16 4c2.25 0 4.083 1.833 4.083 4.083 0 .342-.042.675-.117.992C20.625 9.292 21 10.083 21 11c0 1.65-1.35 3-3 3H1.175v-1.775z"/></svg>
+          </div>
+          <div class="stream-name">SoundCloud</div>
+        </a>
+
+        <a href="https://open.spotify.com/search/koi%20boi" target="_blank" rel="noopener" class="stream-card glass reveal reveal-delay-1">
+          <div class="stream-icon" style="color:#22c55e">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          </div>
+          <div class="stream-name">Spotify</div>
+        </a>
+
+        <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" rel="noopener" class="stream-card glass reveal reveal-delay-2">
+          <div class="stream-icon" style="color:#ec4899">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.75 17.25h-1.5V9.75h1.5v7.5zm3-3h-1.5v-4.5h1.5v4.5zm-6 0H8.25v-4.5h1.5v4.5z"/></svg>
+          </div>
+          <div class="stream-name">Beatport</div>
+        </a>
+
+        <a href="https://www.youtube.com/@koiboi2119" target="_blank" rel="noopener" class="stream-card glass reveal reveal-delay-3">
+          <div class="stream-icon" style="color:#ef4444">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <div class="stream-name">YouTube</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ VISUALS ═══ -->
+  <section id="visuals">
+    <div class="container">
+      <p class="section-label reveal">O00010O</p>
+      <h2 class="section-title reveal reveal-delay-1"><span class="grad-purple-cyan">Visuals</span></h2>
+      <div class="section-divider cyan reveal reveal-delay-2"></div>
+
+      <div class="visuals-grid">
+        <a href="https://www.instagram.com/koiboi_edit_" target="_blank" rel="noopener" class="visual-card glass reveal">
+          <span class="visual-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="color:var(--cyan)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </span>
+          <div class="visual-title">Visual Portfolio</div>
+          <div class="visual-desc">Generative art, VJ clips, and motion experiments curated under the O00010O alias.</div>
+          <span class="visual-link">@koiboi_edit_ →</span>
+        </a>
+
+        <a href="https://www.youtube.com/@koiboi2119" target="_blank" rel="noopener" class="visual-card glass reveal reveal-delay-1">
+          <span class="visual-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="color:var(--cyan)"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </span>
+          <div class="visual-title">YouTube</div>
+          <div class="visual-desc">Live set recordings, TouchDesigner showcases, and full AV performance videos.</div>
+          <span class="visual-link">@koiboi2119 →</span>
+        </a>
+
+        <a href="https://www.tiktok.com/@koiboimusix" target="_blank" rel="noopener" class="visual-card glass reveal reveal-delay-2">
+          <span class="visual-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="color:var(--cyan)"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+          </span>
+          <div class="visual-title">TikTok</div>
+          <div class="visual-desc">Short-form visual experiments, studio moments, and behind-the-scenes content.</div>
+          <span class="visual-link">@koiboimusix →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label reveal">Get in Touch</p>
+      <h2 class="section-title reveal reveal-delay-1"><span class="grad-purple-pink">Contact &amp; Booking</span></h2>
+      <div class="section-divider pink reveal reveal-delay-2"></div>
+
+      <div class="contact-grid">
+        <div class="reveal reveal-delay-1">
+          <p class="contact-intro">
+            Available for bookings worldwide — live sets, DJ performances, and full AV shows with generative visuals. Reach out to discuss dates, venues, and production requirements.
+          </p>
+          <a href="mailto:booking@koiboi.com" class="contact-email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            booking@koiboi.com
+          </a>
+        </div>
+
+        <div class="reveal reveal-delay-2">
+          <div class="social-full-grid">
+            <a href="https://www.instagram.com/koi_boi" target="_blank" rel="noopener" class="social-row ig">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </span>
+              @koi_boi
+            </a>
+            <a href="https://www.instagram.com/koiboi_edit_" target="_blank" rel="noopener" class="social-row ig2">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </span>
+              @koiboi_edit_
+            </a>
+            <a href="https://www.beatport.com/artist/koi-boi/230769" target="_blank" rel="noopener" class="social-row bp">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm.75 17.25h-1.5V9.75h1.5v7.5zm3-3h-1.5v-4.5h1.5v4.5zm-6 0H8.25v-4.5h1.5v4.5z"/></svg>
+              </span>
+              Beatport
+            </a>
+            <a href="https://soundcloud.com/koi-boi" target="_blank" rel="noopener" class="social-row sc">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M1.175 12.225c-.042 0-.083.008-.125.008C.458 12.233 0 11.775 0 11.217c0-.558.458-1.017 1.05-1.017.067 0 .133.008.2.017C1.483 8.942 2.717 8 4.167 8c.583 0 1.125.158 1.583.433.008-.117.017-.233.017-.35C5.767 5.833 7.6 4 9.85 4c1.267 0 2.383.55 3.167 1.433C13.583 4.55 14.717 4 16 4c2.25 0 4.083 1.833 4.083 4.083 0 .342-.042.675-.117.992C20.625 9.292 21 10.083 21 11c0 1.65-1.35 3-3 3H1.175v-1.775z"/></svg>
+              </span>
+              SoundCloud
+            </a>
+            <a href="https://open.spotify.com/search/koi%20boi" target="_blank" rel="noopener" class="social-row sp">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+              </span>
+              Spotify
+            </a>
+            <a href="https://www.youtube.com/@koiboi2119" target="_blank" rel="noopener" class="social-row yt">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              </span>
+              YouTube
+            </a>
+            <a href="https://www.tiktok.com/@koiboimusix" target="_blank" rel="noopener" class="social-row tt">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+              </span>
+              TikTok
+            </a>
+            <a href="https://www.facebook.com/koiboi" target="_blank" rel="noopener" class="social-row fb">
+              <span class="social-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </span>
+              Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="container">
+      <div class="footer-logo"><span>KOI</span>BOI &times; O00010O</div>
+      <p class="footer-sub">Psytrance Producer &middot; DJ &middot; VJ &middot; Visual Artist &middot; Israel</p>
+      <p class="footer-copy">&copy; 2026 KOIBOI &times; O00010O</p>
+    </div>
+  </footer>
+
+</div><!-- /site-wrapper -->
+
+<!-- THREE.JS r134 -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ─── THREE.JS PARTICLE FIELD ───
+  var scene, camera, renderer, particlesMesh, rings = [];
+  var mouse = { x: 0, y: 0 };
+  var target = { x: 0, y: 0 };
+  var clock;
+
+  function initThree() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 6;
+    clock = new THREE.Clock();
+
+    renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x040408, 1);
+
+    // ─── PARTICLES ───
+    var count = 2500;
+    var positions = new Float32Array(count * 3);
+    var colors = new Float32Array(count * 3);
+    var phases = new Float32Array(count);
+
+    var colA = new THREE.Color(0xa855f7); // purple
+    var colB = new THREE.Color(0x06b6d4); // cyan
+    var colC = new THREE.Color(0xec4899); // pink
+
+    for (var i = 0; i < count; i++) {
+      positions[i * 3]     = (Math.random() - 0.5) * 28;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 28;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 28;
+      phases[i] = Math.random() * Math.PI * 2;
+
+      var t = Math.random();
+      var col;
+      if (t < 0.5) {
+        col = colA.clone().lerp(colB, t * 2);
+      } else {
+        col = colB.clone().lerp(colC, (t - 0.5) * 2);
+      }
+      colors[i * 3]     = col.r;
+      colors[i * 3 + 1] = col.g;
+      colors[i * 3 + 2] = col.b;
+    }
+
+    var pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    var pMat = new THREE.PointsMaterial({
+      size: 0.025,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.75,
+      sizeAttenuation: true
+    });
+
+    particlesMesh = new THREE.Points(pGeo, pMat);
+    particlesMesh.userData.phases = phases;
+    particlesMesh.userData.originalPositions = positions.slice();
+    scene.add(particlesMesh);
+
+    // ─── ORBIT RINGS ───
+    var ringData = [
+      { radius: 3.5, tube: 0.008, color: 0xa855f7, opacity: 0.06, rx: 0.4, ry: 0.2 },
+      { radius: 5.0, tube: 0.006, color: 0x06b6d4, opacity: 0.05, rx: 1.1, ry: 0.5 },
+      { radius: 7.0, tube: 0.004, color: 0xec4899, opacity: 0.04, rx: 0.7, ry: 1.2 }
+    ];
+
+    ringData.forEach(function(d) {
+      var geo = new THREE.TorusGeometry(d.radius, d.tube, 8, 128);
+      var mat = new THREE.MeshBasicMaterial({ color: d.color, transparent: true, opacity: d.opacity });
+      var mesh = new THREE.Mesh(geo, mat);
+      mesh.rotation.x = d.rx;
+      mesh.rotation.y = d.ry;
+      scene.add(mesh);
+      rings.push(mesh);
+    });
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('resize', onResize);
+
+    animate();
+  }
+
+  function onMouseMove(e) {
+    mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+  }
+
+  function onTouchMove(e) {
+    if (e.touches.length > 0) {
+      mouse.x = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+      mouse.y = -(e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+    }
+  }
+
+  function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    var t = clock.getElapsedTime();
+
+    // Smooth parallax
+    target.x += (mouse.x * 0.3 - target.x) * 0.05;
+    target.y += (mouse.y * 0.3 - target.y) * 0.05;
+    camera.position.x = target.x;
+    camera.position.y = target.y;
+    camera.lookAt(scene.position);
+
+    // Wave motion on particles
+    var pos = particlesMesh.geometry.attributes.position;
+    var orig = particlesMesh.userData.originalPositions;
+    var phases = particlesMesh.userData.phases;
+    var count = pos.count;
+
+    for (var i = 0; i < count; i++) {
+      pos.array[i * 3 + 1] = orig[i * 3 + 1] + Math.sin(t * 0.4 + phases[i]) * 0.12;
+    }
+    pos.needsUpdate = true;
+
+    // Slow rotation
+    particlesMesh.rotation.y = t * 0.02;
+    particlesMesh.rotation.x = t * 0.008;
+
+    // Ring slow drift
+    rings[0].rotation.z = t * 0.06;
+    rings[1].rotation.z = -t * 0.04;
+    rings[2].rotation.x = 0.7 + t * 0.03;
+
+    renderer.render(scene, camera);
+  }
+
+  initThree();
+
+  // ─── SCROLL REVEAL ───
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  // Trigger hero immediately
+  document.querySelectorAll('#hero .reveal').forEach(function(el) {
+    el.classList.add('visible');
+  });
+
+  // Observe rest
+  reveals.forEach(function(el) {
+    if (!el.closest('#hero')) observer.observe(el);
+  });
+
+  // ─── MOBILE NAV ───
+  var navToggle = document.getElementById('nav-toggle');
+  var nav = document.getElementById('nav');
+  var navLinks = document.getElementById('nav-links');
+  var navSocial = document.getElementById('nav-social');
+
+  navToggle.addEventListener('click', function() {
+    nav.classList.toggle('nav-mobile-open');
+  });
+
+  // Close on link click
+  if (navLinks) {
+    navLinks.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        nav.classList.remove('nav-mobile-open');
+      });
+    });
+  }
+
+  // ─── NAV ACTIVE SECTION ───
+  var sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY;
+    sections.forEach(function(section) {
+      if (scrollY >= section.offsetTop - 80) {
+        document.querySelectorAll('.nav-links a').forEach(function(a) { a.style.color = ''; });
+        var active = document.querySelector('.nav-links a[href="#' + section.id + '"]');
+        if (active) active.style.color = '#a855f7';
+      }
+    });
+  }, { passive: true });
+
+})();
+</script>
+
 </body>
 </html>
